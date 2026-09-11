@@ -57,7 +57,7 @@ class Statistics:
         for value in values:
             squared_sum += (value - mean) ** 2
 
-        variance = squared_sum / len(values)
+        variance = squared_sum / (len(values) - 1)
 
         return math.sqrt(variance)
 

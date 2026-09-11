@@ -15,24 +15,21 @@ class DataLoader:
     are handled by other components.
     """
 
-    def __init__(self, train_path, test_path):
+    def __init__(self, path):
         """
         Initialize the data loader.
 
         Args:
             path (str): Path to the CSV dataset.
         """
-        self.train_path = train_path
-        self.test_path = test_path
+        self.path = path
 
-        self.df_train = None
-        self.df_test = None
+        self.df = None
 
     def load(self):
-        self.df_train = self._load_csv(self.train_path)
-        self.df_test = self._load_csv(self.test_path)
+        self.df = self._load_csv(self.path)
 
-        return self.df_train, self.df_test
+        return self.df
 
     def _load_csv(self, path):
         with open(path, "r", encoding="utf-8") as file:
@@ -50,25 +47,3 @@ class DataLoader:
         print(data)
 
         print("-" * 80)
-
-    # def columns(self):
-    #     """
-    #     Return the column names of the dataset.
-
-    #     Returns:
-    #         list[str]: CSV column names.
-    #     """
-    #     with open(self.path, "r", encoding="utf-8") as file:
-    #         reader = csv.reader(file)
-    #         return next(reader)
-
-    # def shape(self):
-    #     """
-    #     Return the number of rows and columns.
-
-    #     Returns:
-    #         tuple: (number_of_rows, number_of_columns)
-    #     """
-    #     data = self.load()
-
-    #     return len(data), len(self.columns())
