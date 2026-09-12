@@ -12,12 +12,25 @@ NON_FEATURE_COLUMNS = [
  
 HOUSES = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
+    # def identify_numeric_columns(self, df):
+    #     numeric_cols = []
+    #     for col in df.columns:
+    #         # 1. Try converting every non-empty cell in this column to float.
+    #         #    If even one value fails, the column stays categorical
+    #         #    (House, Name, Birthday, Best Hand all fail here).
+    #         try:
+    #             df[col].replace('', None).dropna().astype(float)
+    #             numeric_cols.append(col)
+    #         except ValueError:
+    #             continue
+    #     return numeric_cols
 
 class Preprocessing:
 
 	def __init__(self, df: pd.DataFrame):
 		self.df = df
-		pass
+		numeric_cols = []
+		houses = []
 
 	def get_feature_columns(self) -> list:
 		"""Retourne la liste des colonnes numériques utilisables comme features

@@ -1,9 +1,8 @@
 import sys
 import math
 
-from src.data.loader import DataLoader
+from src.data.loader    import DataLoader
 from src.statistics.statistics import Statistics
-
 
 def is_number(value):
     try:
@@ -26,7 +25,7 @@ def get_numeric_columns(df):
 
         numeric_values = [
             value for value in values
-            if is_number(value)
+            if is_number(value)                                                                                                 
         ]
 
         if len(numeric_values) > 0:

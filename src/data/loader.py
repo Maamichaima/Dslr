@@ -32,14 +32,16 @@ class DataLoader:
         return self.df
 
     def _load_csv(self, path):
-        with open(path, "r", encoding="utf-8") as file:
-            reader = csv.reader(file)
-            header = next(reader)
-            df = pd.DataFrame(reader, columns=header)
-            print(df["Defense Against the Dark Arts"])
+        try:
+            with open(path, "r", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                header = next(reader)
+                df = pd.DataFrame(reader, columns=header)
+            return df
+        except Exception as e:
+            print(f"Something went wrong: {e}")
 
-        return df
-    
+
     def display(self, data):
         """Display the first n rows of the dataset."""
 
