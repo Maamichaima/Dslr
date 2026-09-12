@@ -33,10 +33,12 @@ class DataLoader:
 
     def _load_csv(self, path):
         with open(path, "r", encoding="utf-8") as file:
-            reader = csv.DictReader(file)
-            data = list(reader)
+            reader = csv.reader(file)
+            header = next(reader)
+            df = pd.DataFrame(reader, columns=header)
+            print(df["Defense Against the Dark Arts"])
 
-        return pd.DataFrame(data)
+        return df
     
     def display(self, data):
         """Display the first n rows of the dataset."""

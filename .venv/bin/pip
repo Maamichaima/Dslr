@@ -1,4 +1,4 @@
-#!/Users/maamichaima/Desktop/dslr/.venv/bin/python3.12
+#!/home/mezzine/Dslr/.venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

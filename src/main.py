@@ -12,11 +12,11 @@ def main():
  
     loader = DataLoader(path)
     df = loader.load()
-    loader.display(df.head())
+    # loader.display(df.head())
  
-    prep = Preprocessing(df)
-    incepect_data = prep.inspect_data("Astronomy")
-    print(incepect_data)
+    # prep = Preprocessing(df)
+    # incepect_data = prep.inspect_data("Astronomy")
+    # print(incepect_data)
  
  
 if __name__ == "__main__":
