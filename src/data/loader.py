@@ -41,7 +41,6 @@ class DataLoader:
         except Exception as e:
             print(f"Something went wrong: {e}")
 
-
     def display(self, data):
         """Display the first n rows of the dataset."""
 

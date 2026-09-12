@@ -66,8 +66,7 @@ class Statistics:
         if len(values) == 0:
             return None
 
-        sorted_values = values.copy()
-        sorted_values.sort()
+        sorted_values = values.sort_values().reset_index(drop=True)
 
         position = (len(sorted_values) - 1) * percentage
 

@@ -13,8 +13,7 @@ def main():
     loader = DataLoader(path)
     df = loader.load()
 
-    print(loader.identify_numeric_columns(df))
-    print(df["Defense Against the Dark Arts"])
+    # print(df["Defense Against the Dark Arts"].astype(float))
 
     # loader.display(df.head())
  

@@ -34,21 +34,20 @@ def get_numeric_columns(df):
     return numeric_columns
 
 
-def print_describe_table(df, numeric_columns):
-    """
-    Affiche les stats au format du sujet :
-    features en colonnes, stats en lignes.
-    """
+def print_describe_table(df):
 
     stats_order = ["Count", "Mean", "Std", "Min", "25%", "50%", "75%", "Max"]
 
-    # Calcul des stats pour chaque colonne numérique
+    numeric_columns = []
     results = {}
-    for column in numeric_columns:
-        values = [float(v) for v in df[column] if is_number(v)]
-        results[column] = Statistics.describe(values)
+    for col_name in df.columns:
+        try:
+            col_values = df[col_name].replace('', None).dropna().astype(float)
+            numeric_columns.append(col_name)
+            results[col_name] = Statistics.describe(col_values)
+        except ValueError:
+            continue
 
-    # Largeur de chaque colonne
     col_widths = {}
     for column in numeric_columns:
         max_val_len = max(
@@ -58,13 +57,11 @@ def print_describe_table(df, numeric_columns):
 
     label_width = max(len(stat) for stat in stats_order) + 2
 
-    # Ligne d'en-tête
     header = " " * label_width
     for column in numeric_columns:
         header += f"{column:>{col_widths[column]}}"
     print(header)
 
-    # Une ligne par statistique
     for stat in stats_order:
         line = f"{stat:<{label_width}}"
         for column in numeric_columns:
@@ -84,9 +81,9 @@ def main():
     loader = DataLoader(filepath)
     df = loader.load()
 
-    numeric_columns = get_numeric_columns(df)
+    # numeric_columns = get_numeric_columns(df)
 
-    print_describe_table(df, numeric_columns)
+    print_describe_table(df)
 
 
 if __name__ == "__main__":
