@@ -13,6 +13,7 @@ def main():
     loader = DataLoader(path)
     df = loader.load()
     loader.display(df.head())
+    
  
     prep = Preprocessing(df)
     incepect_data = prep.inspect_data("Astronomy")

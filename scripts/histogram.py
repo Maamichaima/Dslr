@@ -1,18 +1,22 @@
+import sys
 
 from src.data.loader import DataLoader
+from src.data.preprocessing import Preprocessing
 from src.statistics.statistics import Statistics
-from src.visualization.histogram import (
-    get_numeric_columns,
-    find_most_homogeneous_course,
-    plot_histogram,
-)
+from src.visualization.histogram import Histogram
+
 
 def main():
-	loader = DataLoader("../datasets/dataset_train.csv")
+	loader = DataLoader("/Users/maamichaima/Desktop/dslr/datasets/dataset_train.csv")
 	df_train = loader.load()
-	numeric_columns = get_numeric_columns(df_train)
       
-	plot_histogram(df_train, best_column)
+	prep = Preprocessing(df_train)
+	incepect_data = prep.split_by_house("Care of Magical Creatures")
+	print(incepect_data["Gryffindor"])
+      
+	histogram = Histogram(df_train).histogram_for_course("Care of Magical Creatures", incepect_data)
+    
+	# plot_histogram(df_train, best_column)
 
 if __name__ == "__main__":
     main()

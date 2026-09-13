@@ -84,6 +84,7 @@ def main():
 
     loader = DataLoader(filepath)
     df = loader.load()
+    loader.display(df.head())
 
     numeric_columns = get_numeric_columns(df)
 

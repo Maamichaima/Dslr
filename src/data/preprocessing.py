@@ -34,7 +34,7 @@ class Preprocessing:
 		result = {}
 		for house in HOUSES:
 			subset = self.df[self.df["Hogwarts House"] == house][feature]
-			values = subset.dropna().tolist()
+			values = subset.replace('', None).dropna().astype(float).tolist()
 			result[house] = values
 		return result
 	
