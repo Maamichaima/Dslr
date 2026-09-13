@@ -2,6 +2,8 @@ import sys
  
 from data.loader import DataLoader
 from data.preprocessing import Preprocessing
+
+from statistics.correlation import find_most_correlated_pair
  
 
  
@@ -13,18 +15,10 @@ def main():
  
     loader = DataLoader(path)
     df = loader.load()
-    # print(df["Arithmancy"].replace('', None).dropna().astype(float).describe())
+    prep = Preprocessing(df)
 
-    # print(df[df['Hogwarts House'] == 'Gryffindor'])
+    print(find_most_correlated_pair(df, prep.numeric_cols))
 
-    # plt.hist(df[df['Hogwarts House'] == 'Gryffindor']["Arithmancy"])
-    # plt.show()
-
-    # print(df["Defense Against the Dark Arts"].astype(float))
-
-    # loader.display(df.head())
- 
-    # prep = Preprocessing(df)
     # print(prep.split_by_house("Defense Against the Dark Arts"))
     # incepect_data = prep.inspect_data("Astronomy")
     # print(incepect_data)

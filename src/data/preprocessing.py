@@ -28,12 +28,12 @@ class Preprocessing:
 		return result
 	
 	def get_feature_pair(self, feat_x: str, feat_y: str) -> pd.DataFrame:
-		"""Retourne un sous-dataframe (Hogwarts House, feat_x, feat_y) en ne
-		gardant que les lignes où LES DEUX features sont renseignées.
-		Utile pour scatter_plot et pair_plot (on ne peut pas placer un point
-		si l'une des deux coordonnées manque)."""
-		cols = [self.houses_column_name, feat_x, feat_y]
-		return self.df[cols].dropna()
+		result = {}
+		for house in self.houses:
+			subset = self.df[self.df['Hogwarts House'] == house]
+			pair = subset[[feat_x, feat_y]].replace('', None).astype(float).dropna()
+			result[house] = (pair[feat_x], pair[feat_y])
+		return result
 	
 	def inspect_data(self, feature: str) -> dict:
 		features = self.identify_numeric_columns()

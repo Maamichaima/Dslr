@@ -3,10 +3,9 @@ from src.data.preprocessing import Preprocessing
 import sys
 from src.data.loader    import DataLoader
 
-
 class Histogram:
-  def __init__(self, df):
-    self.prep = Preprocessing(df)
+  def __init__(self, prep):
+    self.prep = prep
 
   def plot(self, feature: str):
     data = self.prep.split_by_house(feature)
@@ -37,7 +36,10 @@ if __name__ == "__main__":
   loader = DataLoader(filepath)
   df = loader.load()
 
+  prep = Preprocessing(df)
 
-  hist = Histogram(df)
-  hist.plots()
+
+  hist = Histogram(prep)
+  # hist.plots()
+  hist.plot("Care of Magical Creatures")
 
