@@ -27,6 +27,12 @@ class DataLoader:
         self.df = None
 
     def load(self):
+
+        # Display all columns
+        pd.set_option('display.max_columns', None)
+        # Display all rows
+        pd.set_option('display.max_rows', None) 
+
         self.df = self._load_csv(self.path)
 
         return self.df
