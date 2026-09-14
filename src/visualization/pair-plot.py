@@ -10,15 +10,12 @@ class PairPlot:
   def __init__(self, df):
     self.df = df
     self.prep = Preprocessing(df)
-    # self.hist = Histogram(self.prep)
-    # self.scat = Scatter(self.prep)
 
   def plot(self):
       n = len(self.prep.numeric_cols)
       fig, axes = plt.subplots(n, n, figsize=(3*n, 3*n))
 
       houses = self.prep.houses
-
       for i, feat_y in enumerate(self.prep.numeric_cols):
           for j, feat_x in enumerate(self.prep.numeric_cols):
               ax = axes[i, j]
@@ -32,12 +29,14 @@ class PairPlot:
                   for house, (x, y) in data.items():
                     ax.scatter(x, y,label = house, alpha=0.4, s=8)
 
-              if i == n - 1:
-                  ax.set_xlabel(feat_x, fontsize=6)
-              if j == 0:
-                  ax.set_ylabel(feat_y, fontsize=6)
+              ax.label_outer()
 
-      plt.tight_layout()
+              if i == n - 1:
+                  ax.set_xlabel(feat_x.replace(' ','\n'), fontsize=6)
+              if j == 0:
+                  ax.set_ylabel(feat_y.replace(' ','\n'), fontsize=6)
+
+      # plt.tight_layout()
       plt.show()
 
 
