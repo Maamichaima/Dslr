@@ -14,12 +14,24 @@ class OneVsAll:
   def fit(self):
     features = self.prep.prepare_features(self.features_name)
     labels = self.prep.get_labels(features)
+    # print(features)
+    # print(labels)
     self.models = {}
     for house in self.prep.houses:
       model = LogisticRegression()
       model.fit(features.to_numpy(), self.prep.make_binary_labels(labels, house))
       self.models[house] = model
       
+
+  def predict(self, x: list[float])-> tuple[str, float]:
+      best_house = None
+      best_p = 0
+      for house, model in self.models.items():
+          p = model.predict(x)
+          if p > best_p:
+              best_p = p
+              best_house = house
+      return (best_house, best_p)
 
   def save_all_weights(self, file_name='weights.json'):
         data = {}
@@ -57,4 +69,5 @@ if __name__ == "__main__":
 
   model = OneVsAll(prep, ["Defense Against the Dark Arts", "Divination"])
   model.fit()
-  model.save_all_weights()
+  print(model.predict([6.136871603822727  ,     -6.5920000000000005]))
+  # model.save_all_weights()

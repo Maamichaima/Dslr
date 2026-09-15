@@ -35,22 +35,6 @@ class Preprocessing:
 			pair = subset[[feat_x, feat_y]].replace('', None).astype(float).dropna()
 			result[house] = (pair[feat_x], pair[feat_y])
 		return result
-	
-	def inspect_data(self, feature: str) -> dict:
-		features = self.identify_numeric_columns()
- 
-		# print(f"{len(self.df)} étudiants chargés.")
-		# print(f"{len(features)} features numériques trouvées :")
-		# for f in features:
-		# 	print(f"  - {f}")
-	
-		# print("\nExemple : répartition par maison pour 'Astronomy'")
-		grouped = self.split_by_house(feature)#"Astronomy"
-
-		return grouped
-		# print (grouped)
-		# for house, values in grouped.items():
-		# 	print(f"  {house}: {len(values)} notes valides")
 
 	def make_binary_labels(self, house_column, target_house):
 		labels = []
