@@ -15,6 +15,9 @@ if __name__ == "__main__":
 
   prep = Preprocessing(df)
 
-  model = OneVsAll(prep, ["Defense Against the Dark Arts", "Divination"])
+  
+
+#   model = OneVsAll(prep, ["Astronomy", "Herbology"])
+  model = OneVsAll(prep, ["Defense Against the Dark Arts", "Charms", "Divination", "Muggle Studies"])
   model.fit()
   model.save_all_weights()

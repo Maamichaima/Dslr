@@ -10,6 +10,8 @@ class Preprocessing:
 		self.houses_column_name = "Hogwarts House"
 		self.houses = df[self.houses_column_name].unique()
 
+		self.feature_scaler = FeatureScaler()
+
 	def identify_numeric_columns(self, df):
 			numeric_cols = []
 			for col in df.columns:
@@ -46,8 +48,15 @@ class Preprocessing:
 		
 		return np.array(labels)
 
-	def prepare_features(self, desired_features_name: list[str]):
-		return self.df[desired_features_name].replace('', None).dropna().astype(float)
+	def prepare_features(self, desired_features_name: list[str], prediction = False):
+		data = self.df[desired_features_name].replace('', None).astype(float)
+		# print(data)
+		if not prediction:
+			self.feature_scaler.fit(data.dropna(), desired_features_name)
+		# print(self.feature_scaler.means)
+		data = data.fillna(self.feature_scaler.means)
+		# print(data)
+		return self.feature_scaler.transform(data, desired_features_name)
 
 	def get_labels(self, features: pd.DataFrame) -> pd.DataFrame:
 		return self.df.loc[features.index, "Hogwarts House"]
@@ -61,12 +70,11 @@ class FeatureScaler:
         self.means = {}
         self.stds = {}
 
-    def fit_transform(self, X, feature_names):
+    def fit(self, X, feature_names):
         """
         X: your feature matrix, already cleaned to float
            (one column per feature, one row per student)
         """
-        X_scaled = X.copy()
 
         for col in feature_names:
             # 2. Reuse Statistics.mean / Statistics.std — same
@@ -78,9 +86,9 @@ class FeatureScaler:
             self.stds[col] = sigma
 
             # 3. Apply the formula above, column by column.
-            X_scaled[col] = (X[col] - mu) / sigma
+            # X_scaled[col] = (X[col] - mu) / sigma
 
-        return X_scaled.to_numpy()
+        # return X_scaled.to_numpy()
 
     def transform(self, X, feature_names):
         # 4. At PREDICTION time, you do NOT recompute mean/std from

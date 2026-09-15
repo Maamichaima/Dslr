@@ -1,4 +1,4 @@
-from src.data.preprocessing import Preprocessing
+from src.data.preprocessing import Preprocessing, FeatureScaler
 from src.model.logistic_regression import LogisticRegression
 import sys
 from src.data.loader    import DataLoader
@@ -12,14 +12,14 @@ class OneVsAll:
     self.features_name = features_name
 
   def fit(self):
-    features = self.prep.prepare_features(self.features_name)
-    labels = self.prep.get_labels(features)
-    # print(features)
+    scaled_features = self.prep.prepare_features(self.features_name)
+    # print(scaled_features)
+    labels = self.prep.get_labels(scaled_features)
     # print(labels)
     self.models = {}
     for house in self.prep.houses:
       model = LogisticRegression()
-      model.fit(features.to_numpy(), self.prep.make_binary_labels(labels, house))
+      model.fit(scaled_features.to_numpy(), self.prep.make_binary_labels(labels, house))
       self.models[house] = model
       
 
@@ -34,9 +34,14 @@ class OneVsAll:
       return (best_house, best_p)
 
   def save_all_weights(self, file_name='weights.json'):
-        data = {}
+        data = {
+            'feature_names': list(self.features_name),
+            'scaler_means': self.prep.feature_scaler.means,
+            'scaler_stds': self.prep.feature_scaler.stds,
+            'houses': {}
+        }
         for house, model in self.models.items():
-            data[house] = {
+            data['houses'][house] = {
                 'weights': model.weights.tolist(),
                 'bias': float(model.bias)
             }
@@ -49,11 +54,15 @@ class OneVsAll:
             data = json.load(f)
 
         self.models = {}
-        for house, values in data.items():
+        for house, values in data['houses'].items():
             model = LogisticRegression()
             model.weights = np.array(values['weights'])
             model.bias = values['bias']
             self.models[house] = model
+
+        self.features_name = data['feature_names']
+        self.prep.feature_scaler.means = data['scaler_means']
+        self.prep.feature_scaler.stds = data['scaler_stds']
 
 if __name__ == "__main__":
   if len(sys.argv) != 2:

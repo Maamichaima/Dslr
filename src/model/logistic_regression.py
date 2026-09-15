@@ -17,6 +17,8 @@ class LogisticRegression:
     def cost(self, y_pred, y):
         """Cross-entropy loss"""
         m = len(y)
+        eps = 1e-15
+        y_pred = np.clip(y_pred, eps, 1 - eps)
         return - (1/m) * np.sum(y*np.log(y_pred) + (1-y)*np.log(1-y_pred))
 
     def gradient_descent():
