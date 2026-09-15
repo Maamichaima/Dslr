@@ -41,7 +41,7 @@ def print_describe_table(df, numeric_columns):
     features en colonnes, stats en lignes.
     """
 
-    stats_order = ["Count", "Mean", "Std", "Min", "25%", "50%", "75%", "Max"]
+    stats_order = ["Count", "Sum", "Mean", "Std", "Variance", "Min", "25%", "50%", "75%", "Max", "Range", "IQR"]
 
     # Calcul des stats pour chaque colonne numérique
     results = {}

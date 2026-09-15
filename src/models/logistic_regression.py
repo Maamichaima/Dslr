@@ -11,14 +11,21 @@ class LogisticRegression:
 
     def sigmoid(self, z):
         """Sigmoid activation function"""
+        z = np.clip(z, -500, 500)
         return 1 / (1 + np.exp(-z))
+
 
     def cost(self, y_pred, y):
         """Cross-entropy loss"""
-        # print(y_pred, y)
         m = len(y)
-        # print(m)
-        return - (1/m) * np.sum(y*np.log(y_pred) + (1-y)*np.log(1-y_pred))
+
+        epsilon = 1e-15
+        y_pred = np.clip(y_pred, epsilon, 1 - epsilon)
+
+        return - (1 / m) * np.sum(
+            y * np.log(y_pred) +
+            (1 - y) * np.log(1 - y_pred)
+        )
 
     def fit(self, X:np.array, y: np.array):
         """Train model using gradient descent"""

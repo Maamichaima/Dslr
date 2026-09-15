@@ -5,21 +5,12 @@ from src.data.preprocessing import Preprocessing
 from src.models.logistic_regression import LogisticRegression
 import numpy as np
 
+from src.models.one_vs_all import OneVsAll
+
 
 def main():
-    # Features:
-    # [Math, History]
-    X = np.array([
-        [80, 70],
-        [85, 75],
-        [30, 40],
-        [35, 45]
-    ])
 
-    # 1 = Gryffindor
-    # 0 = Not Gryffindor
-    y = np.array([1, 1, 0, 0])
-
+    # Load dataset
     if len(sys.argv) != 2:
         print("Usage: python describe.py <dataset.csv>")
         sys.exit(1)
@@ -27,70 +18,54 @@ def main():
     filepath = sys.argv[1]
 
     loader = DataLoader(filepath)
-    
-    preprocessing = Preprocessing(loader.load())
-    
-    # 3. Choose the features
+    df = loader.load()
+
+    # Preprocessing
+    preprocessing = Preprocessing(df)
+
     features = [
         "Astronomy",
         "Herbology"
     ]
 
-    # 4. Select features and remove rows with missing values
+    # Select features and remove missing rows
     X_df = preprocessing.prepare_features(features)
 
-    # print(X_df)
-    # 5. Get the corresponding houses
-    house_column = preprocessing.df.loc[X_df.index, "Hogwarts House"]
-    
-    # print(house_column)
+    # Keep the corresponding houses
+    house_column = df.loc[X_df.index, "Hogwarts House"]
 
-    # # 6. Create binary labels
-    # Gryffindor = 1
-    # Other houses = 0
-    y = preprocessing.make_binary_labels(
-        house_column,
-        "Gryffindor"
-    )
-    
-    # print(y)
+    # Convert X to NumPy
+    X = np.array(X_df, dtype=float)
 
-    # # 7. Convert DataFrame to NumPy array
-    X = X_df.to_numpy()
-    
+    print("\nX shape:")
+    print(X.shape)
 
+    print("\nHouses:")
+    print(house_column.head())
 
-    # # Create model
-    model = LogisticRegression(
+    # One-vs-All
+    model = OneVsAll(
         learning_rate=0.01,
         iterations=1000
     )
 
-    # # Train
-    model.fit(X, y)
+    # Train 4 models
+    model.fit(X, house_column.to_numpy())
 
-    # # Probabilities
-    probabilities = model.sigmoid(
-        np.dot(X, model.weights) + model.bias
-    )
-
-    # # Predictions
+    # Predict
     predictions = model.predict(X)
 
-    # print("Weights:")
-    # print(model.weights)
+    print("\nPredictions:")
+    print(predictions[:20])
 
-    # print("\nBias:")
-    # print(model.bias)
+    print("\nReal houses:")
+    print(house_column.to_numpy()[:20])
 
-    # print("\nProbabilities:")
-    # print(probabilities)
+    # Accuracy
+    accuracy = np.mean(
+        predictions == house_column.to_numpy()
+    )
 
-    # print("\nPredictions:")
-    # print(predictions)
-
-    # print("\nReal values:")
-    # print(y)
 
 
 if __name__ == "__main__":
