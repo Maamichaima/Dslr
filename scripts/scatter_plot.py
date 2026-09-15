@@ -49,6 +49,22 @@ def scatter_plot(data, feature1, feature2):
 	plt.title(f"{feature1} vs {feature2}")
 	plt.legend()
 	plt.show()
+def plot_pair_grid(prep, features):
+	n = len(features)
+	fig, axes = plt.subplots(n, n, figsize=(2*n, 2*n))
+	for i, feat_y in enumerate(features):
+		for j, feat_x in enumerate(features):
+			ax = axes[i][j]
+			if i == j:
+				# diagonale : histogramme par maison (comme histogram.py)
+				plot_single_histogram(ax, prep, feat_x)
+			else:
+				# scatter coloré par maison
+				for house in HOUSES:
+					subset = df[df["Hogwarts House"] == house]
+					ax.scatter(subset[feat_x], subset[feat_y], s=3, alpha=0.5, color=HOUSE_COLORS[house])
+			# réduire les labels pour la lisibilité
+	plt.show()
 
 def main():
 	loader = DataLoader("/Users/maamichaima/Desktop/dslr/datasets/dataset_train.csv")

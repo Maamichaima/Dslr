@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 
 NON_FEATURE_COLUMNS = [
     "Index",
@@ -61,3 +61,43 @@ class Preprocessing:
 		# print (grouped)
 		# for house, values in grouped.items():
 		# 	print(f"  {house}: {len(values)} notes valides")
+	def prepare_features(self, features: list) -> pd.DataFrame:
+		"""
+		Select the requested features and remove every row
+		containing a missing value in one of these features.
+		"""
+		data = self.df[features].copy()
+
+		# Convert empty strings to NaN
+		data = data.replace("", np.nan)
+
+		# Remove rows containing NaN in the selected features
+		data = data.dropna()
+
+		# Convert features to float
+		data = data.astype(float)
+
+		return data
+	def encode_houses(self) -> pd.DataFrame:
+		house_mapping = {
+			"Gryffindor": 1,
+			"Hufflepuff": 2,
+			"Ravenclaw": 3,
+			"Slytherin": 4
+		}
+
+		data = self.df.copy()
+		data["Hogwarts House"] = data["Hogwarts House"].map(house_mapping)
+
+		return data
+
+	def make_binary_labels(self, house_column, target_house):
+		labels = []
+
+		for house in house_column:
+			if house == target_house:
+				labels.append(1)
+			else:
+				labels.append(0)
+
+		return np.array(labels)
