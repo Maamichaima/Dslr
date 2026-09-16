@@ -96,25 +96,3 @@ class Statistics:
             "75%": Statistics.percentile(values, 0.75),
             "Max": Statistics.maximum(values)
         }
-
-    # @staticmethod
-    # def is_number(value):
-    #     return True
-    #     # except (ValueError, TypeError):
-    #     #     return False
-
-    # def get_numeric_columns(self, df):
-
-    #     numeric_columns = []
-
-    #     for column in df.columns:
-
-    #         values = df[column].dropna()
-
-    #         if len(values) == 0:
-    #             continue
-
-    #         if all(self.is_number(value) for value in values):
-    #             numeric_columns.append(column)
-
-    #     return numeric_columns

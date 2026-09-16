@@ -1,37 +1,7 @@
 import sys
-import math
 
-from src.data.loader    import DataLoader
+from src.data.loader import DataLoader
 from src.statistics.statistics import Statistics
-
-def is_number(value):
-    try:
-        num = float(value)
-        return not math.isnan(num)
-    except (ValueError, TypeError):
-        return False
-
-
-def get_numeric_columns(df):
-
-    numeric_columns = []
-
-    for column in df.columns:
-
-        values = df[column].dropna()
-
-        if len(values) == 0:
-            continue
-
-        numeric_values = [
-            value for value in values
-            if is_number(value)                                                                                                 
-        ]
-
-        if len(numeric_values) > 0:
-            numeric_columns.append(column)
-
-    return numeric_columns
 
 
 def print_describe_table(df):
@@ -80,8 +50,6 @@ def main():
 
     loader = DataLoader(filepath)
     df = loader.load()
-
-    # numeric_columns = get_numeric_columns(df)
 
     print_describe_table(df)
 

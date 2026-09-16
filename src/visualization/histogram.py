@@ -4,7 +4,7 @@ import sys
 from src.data.loader    import DataLoader
 
 class Histogram:
-  def __init__(self, prep):
+  def __init__(self, prep: Preprocessing):
     self.prep = prep
 
   def plot(self, feature: str):

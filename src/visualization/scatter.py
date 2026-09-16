@@ -1,15 +1,15 @@
 from src.data.preprocessing import Preprocessing
 import matplotlib.pyplot as plt
 import sys
-from src.data.loader    import DataLoader
+from src.data.loader import DataLoader
 from itertools import combinations
 
 
 class Scatter:
-  def __init__(self, prep):
+  def __init__(self, prep: Preprocessing):
     self.prep = prep
 
-  def plot(self, feat_x: str, feat_y: str, ax = None):
+  def plot(self, feat_x: str, feat_y: str):
     data = self.prep.get_feature_pair(feat_x, feat_y)
 
     for house, (x, y) in data.items():

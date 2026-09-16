@@ -36,7 +36,7 @@ class OneVsAll:
 
   def save_all_weights(self, file_name='weights.json'):
         data = {
-            'feature_names': list(self.features_name),
+            'feature_names': self.features_name,
             'scaler_means': self.prep.feature_scaler.means,
             'scaler_stds': self.prep.feature_scaler.stds,
             'houses': {}

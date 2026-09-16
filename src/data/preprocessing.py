@@ -1,13 +1,22 @@
 import pandas as pd
 import numpy as np
 from src.statistics.statistics import Statistics
+import sys
 
 class Preprocessing:
 
 	def __init__(self, df: pd.DataFrame):
 		self.df = df
 		self.numeric_cols = self.identify_numeric_columns(df)
+		if len(self.numeric_cols) == 0:
+			print("No numeric colums found")
+			sys.exit(1)
+
 		self.houses_column_name = "Hogwarts House"
+		if self.houses_column_name not in df.columns:
+			print(f"Column '{self.houses_column_name}' not found in dataset")
+			sys.exit(1)
+
 		self.houses = df[self.houses_column_name].unique()
 
 		self.feature_scaler = FeatureScaler()
@@ -64,37 +73,19 @@ class Preprocessing:
 
 class FeatureScaler:
     def __init__(self):
-        # 1. Store mean/std PER FEATURE — you'll need these exact
-        #    same numbers again at prediction time (see the gotcha
-        #    below), so they can't just be local variables.
         self.means = {}
         self.stds = {}
 
     def fit(self, X, feature_names):
-        """
-        X: your feature matrix, already cleaned to float
-           (one column per feature, one row per student)
-        """
 
         for col in feature_names:
-            # 2. Reuse Statistics.mean / Statistics.std — same
-            #    functions from describe.py, just called here now.
-            mu = Statistics.mean(X[col])
-            sigma = Statistics.standard_deviation(X[col])
+            mean = Statistics.mean(X[col])
+            std = Statistics.standard_deviation(X[col])
 
-            self.means[col] = mu
-            self.stds[col] = sigma
-
-            # 3. Apply the formula above, column by column.
-            # X_scaled[col] = (X[col] - mu) / sigma
-
-        # return X_scaled.to_numpy()
+            self.means[col] = mean
+            self.stds[col] = std
 
     def transform(self, X, feature_names):
-        # 4. At PREDICTION time, you do NOT recompute mean/std from
-        #    the test set — you reuse the exact numbers learned from
-        #    TRAINING. Using the test set's own mean/std would leak
-        #    information and silently shift your decision boundary.
         X_scaled = X.copy()
         for col in feature_names:
             X_scaled[col] = (X[col] - self.means[col]) / self.stds[col]

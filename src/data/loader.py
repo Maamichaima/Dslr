@@ -1,39 +1,23 @@
-"""
-Data loading utilities for the DSLR project.
-"""
-
 import csv
 import pandas as pd
-
+import sys
 
 class DataLoader:
-    """
-    Load CSV datasets used by the project.
-
-    This class is responsible only for reading the dataset.
-    Data cleaning, statistics, visualization and preprocessing
-    are handled by other components.
-    """
 
     def __init__(self, path):
-        """
-        Initialize the data loader.
-
-        Args:
-            path (str): Path to the CSV dataset.
-        """
         self.path = path
 
         self.df = None
 
     def load(self):
 
-        # Display all columns
-        pd.set_option('display.max_columns', None)
-        # Display all rows
-        pd.set_option('display.max_rows', None) 
+        # pd.set_option('display.max_columns', None)
+        # pd.set_option('display.max_rows', None) 
 
         self.df = self._load_csv(self.path)
+
+        if self.df is None or self.df.empty:
+            sys.exit(1)
 
         return self.df
 
@@ -48,9 +32,6 @@ class DataLoader:
             print(f"Something went wrong: {e}")
 
     def display(self, data):
-        """Display the first n rows of the dataset."""
-
-        # for row in data[:n]:
         print("-" * 80)
 
         print(data)

@@ -2,9 +2,7 @@ import seaborn
 import matplotlib.pyplot as plt
 from src.data.preprocessing import Preprocessing
 import sys
-from src.data.loader    import DataLoader
-from .histogram import Histogram
-from .scatter import Scatter
+from src.data.loader import DataLoader
 
 class PairPlot:
   def __init__(self, df):
@@ -23,11 +21,11 @@ class PairPlot:
               if i == j:
                   data = self.prep.split_by_house(feat_x)
                   for house in houses:
-                      ax.hist(data[house], alpha=0.5)
+                      ax.hist(data[house], alpha=0.5, label=house)
               else:
                   data = self.prep.get_feature_pair(feat_x, feat_y)
                   for house, (x, y) in data.items():
-                    ax.scatter(x, y,label = house, alpha=0.4, s=8)
+                    ax.scatter(x, y, label = house, alpha=0.4, s=8)
 
               ax.label_outer()
 
@@ -37,6 +35,8 @@ class PairPlot:
                   ax.set_ylabel(feat_y.replace(' ','\n'), fontsize=6)
 
       # plt.tight_layout()
+      handles, labels = axes[0, 1].get_legend_handles_labels()
+      fig.legend(handles, labels, loc='upper right')
       plt.show()
 
 
