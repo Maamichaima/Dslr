@@ -6,7 +6,7 @@ from src.statistics.statistics import Statistics
 
 def print_describe_table(df):
 
-    stats_order = ["Count", "Mean", "Std", "Min", "25%", "50%", "75%", "Max"]
+    stats_order = ["Count", "Mean", "Std", "Min", "25%", "50%", "75%", "Max", "Range", "IQR", "Sum"]
 
     numeric_columns = []
     results = {}

@@ -84,8 +84,36 @@ class Statistics:
         )
 
     @staticmethod
-    def describe(values):
+    def range(values):
+        if len(values) == 0:
+            return None
 
+        return Statistics.maximum(values) - Statistics.minimum(values)
+
+    @staticmethod
+    def sum(values):
+        if len(values) == 0:
+            return None
+
+        total = 0
+
+        for value in values:
+            total += value
+
+        return total
+
+    @staticmethod
+    def iqr(values):
+        if len(values) == 0:
+            return None
+
+        q1 = Statistics.percentile(values, 0.25)
+        q3 = Statistics.percentile(values, 0.75)
+
+        return q3 - q1
+
+    @staticmethod
+    def describe(values):
         return {
             "Count": Statistics.count(values),
             "Mean": Statistics.mean(values),
@@ -94,5 +122,8 @@ class Statistics:
             "25%": Statistics.percentile(values, 0.25),
             "50%": Statistics.percentile(values, 0.50),
             "75%": Statistics.percentile(values, 0.75),
-            "Max": Statistics.maximum(values)
+            "Max": Statistics.maximum(values),
+            "Sum": Statistics.sum(values),
+            "Range": Statistics.range(values),
+            "IQR": Statistics.iqr(values)
         }
