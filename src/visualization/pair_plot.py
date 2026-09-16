@@ -30,9 +30,9 @@ class PairPlot:
               ax.label_outer()
 
               if i == n - 1:
-                  ax.set_xlabel(feat_x.replace(' ','\n'), fontsize=6)
+                  ax.set_xlabel(feat_x.replace(' ','\n'), fontsize=15)
               if j == 0:
-                  ax.set_ylabel(feat_y.replace(' ','\n'), fontsize=6)
+                  ax.set_ylabel(feat_y.replace(' ','\n'), fontsize=15)
 
       # plt.tight_layout()
       handles, labels = axes[0, 1].get_legend_handles_labels()

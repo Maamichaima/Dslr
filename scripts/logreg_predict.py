@@ -13,7 +13,7 @@ def predict_and_save(model: OneVsAll, output_file='houses.csv'):
         writer.writerow(['Index', 'Hogwarts House'])
 
         for idx, row in features.iterrows():
-            x = row[model.features_name].to_numpy()
+            x = row.to_numpy()
             house, _ = model.predict(x)
             writer.writerow([idx, house])
 

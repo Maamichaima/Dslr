@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
   
 
-#   model = OneVsAll(prep, ["Astronomy", "Herbology"])
-  model = OneVsAll(prep, ["Defense Against the Dark Arts", "Charms", "Divination", "Muggle Studies"])
+  model = OneVsAll(prep, ["Divination", "History of Magic", "Charms", "Astronomy", "Transfiguration"])
+  # model = OneVsAll(prep, ["Defense Against the Dark Arts", "Charms", "Divination", "Muggle Studies"])
   model.fit()
   model.save_all_weights()

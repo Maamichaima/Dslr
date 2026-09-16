@@ -80,8 +80,8 @@ class LogisticRegression:
                 z = np.dot(X_batch, self.weights) + self.bias
                 y_pred = self.sigmoid(z)
 
-                dw = (1/m) * np.dot(X_batch.T, (y_pred - y_batch))
-                db = (1/m) * np.sum(y_pred - y_batch)
+                dw = (1/batch_m) * np.dot(X_batch.T, (y_pred - y_batch))
+                db = (1/batch_m) * np.sum(y_pred - y_batch)
 
                 self.weights -= self.lr * dw
                 self.bias -= self.lr * db

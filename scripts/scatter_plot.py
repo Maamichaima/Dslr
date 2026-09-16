@@ -7,8 +7,6 @@ def main():
     current_file_dir = Path(__file__).resolve().parent
     loader = DataLoader(f"{current_file_dir}/../datasets/dataset_train.csv")
     df = loader.load()
-    if df is None or df.empty:
-        return
 
     prep = Preprocessing(df)
     scat = Scatter(prep)

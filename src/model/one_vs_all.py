@@ -20,7 +20,7 @@ class OneVsAll:
     for house in self.prep.houses:
       model = LogisticRegression()
       model.fit(scaled_features.to_numpy(), self.prep.make_binary_labels(labels, house))
-    #   model.plot_cost_history()
+      # model.plot_cost_history()
       self.models[house] = model
       
 
