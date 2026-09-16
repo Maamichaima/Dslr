@@ -6,7 +6,7 @@ import csv
 
 def predict_and_save(model: OneVsAll, output_file='houses.csv'):
     
-    features = model.prep.prepare_features(model.features_name)
+    features = model.prep.prepare_features(model.features_name, prediction=True)
 
     with open(output_file, 'w', newline='') as f:
         writer = csv.writer(f)
